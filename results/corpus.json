@@ -1,0 +1,120 @@
+{
+  "sessions": 38,
+  "participants": 16,
+  "participant_ids": [
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08",
+    "P09",
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14",
+    "P15",
+    "P16"
+  ],
+  "action_segments": 4803,
+  "total_span_s": 16203.940183147106,
+  "total_span_h": 4.5010944953186405,
+  "total_active_s": 11326.085860707384,
+  "corpus_activity_share": 0.6989710979362335,
+  "action_classes": 13,
+  "duration_s": {
+    "min": 0.11761740737628656,
+    "p10": 0.8401243384020631,
+    "median": 1.9154834915567562,
+    "mean": 2.3581273913611045,
+    "sd": 1.8096905878033283,
+    "cv": 0.7674269822881706,
+    "p90": 4.282953877173806,
+    "max": 26.967991262706846
+  },
+  "activity_share_range": [
+    0.6103050207718043,
+    0.8194931138456528
+  ],
+  "native_fps": 29.97002997002997,
+  "mocap_hz_used": 119.03,
+  "frame_rate_fit": {
+    "session": "P01_R01",
+    "segments": 109,
+    "label_mismatches": 0,
+    "timing_pairs": 217,
+    "fitted_hz": 119.00463534358006,
+    "max_residual_frames": 14.10395316681388,
+    "max_residual_seconds": 0.11851599835665347
+  },
+  "per_label": {
+    "Assemble system": {
+      "n": 1378,
+      "median_s": 3.0034445097874567,
+      "min_s": 0.23523481475258734
+    },
+    "Picking left": {
+      "n": 641,
+      "median_s": 2.033100898933041,
+      "min_s": 0.6805007141056869
+    },
+    "Take component": {
+      "n": 485,
+      "median_s": 1.2013778039149656,
+      "min_s": 0.15962362429638688
+    },
+    "Picking in front": {
+      "n": 456,
+      "median_s": 1.9238847349407706,
+      "min_s": 0.5628833067293897
+    },
+    "Take screwdriver": {
+      "n": 420,
+      "median_s": 1.638242459884058,
+      "min_s": 0.638494497185583
+    },
+    "Put down screwdriver": {
+      "n": 416,
+      "median_s": 1.6802486768041547,
+      "min_s": 0.5964882802654756
+    },
+    "Put down component": {
+      "n": 385,
+      "median_s": 0.4032596824330028,
+      "min_s": 0.11761740737628656
+    },
+    "Turn sheets": {
+      "n": 224,
+      "median_s": 2.679996639502647,
+      "min_s": 0.9157355288582494
+    },
+    "Consult sheets": {
+      "n": 132,
+      "median_s": 1.3189952112912806,
+      "min_s": 0.1596236242964153
+    },
+    "Put down subsystem": {
+      "n": 77,
+      "median_s": 4.477862723683103,
+      "min_s": 1.4030076451314812
+    },
+    "Take measuring rod": {
+      "n": 76,
+      "median_s": 1.5374275392758125,
+      "min_s": 0.47887087288918906
+    },
+    "Put down measuring rod": {
+      "n": 74,
+      "median_s": 1.382004536671431,
+      "min_s": 0.3948584390489742
+    },
+    "Take subsystem": {
+      "n": 39,
+      "median_s": 2.3607493909098594,
+      "min_s": 1.23498277745108
+    }
+  }
+}

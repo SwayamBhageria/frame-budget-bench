@@ -1,0 +1,197 @@
+{
+  "frames_decoded": 120,
+  "decode": [
+    {
+      "stride": 1,
+      "source_frames": 2956,
+      "ms_per_video_second": 9.99032640559856
+    },
+    {
+      "stride": 2,
+      "source_frames": 2956,
+      "ms_per_video_second": 6.582541271389938
+    },
+    {
+      "stride": 5,
+      "source_frames": 2956,
+      "ms_per_video_second": 4.50277606032109
+    },
+    {
+      "stride": 10,
+      "source_frames": 2956,
+      "ms_per_video_second": 4.048888776904169
+    },
+    {
+      "stride": 30,
+      "source_frames": 2956,
+      "ms_per_video_second": 3.5340070081908608
+    }
+  ],
+  "decode_floor_ms_per_video_second": 3.5340070081908608,
+  "runs": [
+    {
+      "provider": "CPUExecutionProvider",
+      "model": "yolov8n-pose.onnx",
+      "frames_timed": 120,
+      "repeats": 3,
+      "ms_per_frame": 19.912070141678363,
+      "ms_per_frame_best": 19.647157641884405,
+      "ms_per_frame_worst": 20.762457983316075,
+      "frames_per_second": 50.22079537108899,
+      "deployment": [
+        {
+          "analysed_fps": 29.97,
+          "frames_per_camera_hour": 107892.0,
+          "inference_seconds_per_camera_hour": 2148.353071725962,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 2161.075496955449,
+          "decode_share": 0.005887080413160306,
+          "cameras_per_device": 1.665837220898449,
+          "cameras_per_device_inference_only": 1.6757022145842173
+        },
+        {
+          "analysed_fps": 15.0,
+          "frames_per_camera_hour": 54000.0,
+          "inference_seconds_per_camera_hour": 1075.2517876506315,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 1087.9742128801186,
+          "decode_share": 0.011693682698423436,
+          "cameras_per_device": 3.3089019550104686,
+          "cameras_per_device_inference_only": 3.3480530247392664
+        },
+        {
+          "analysed_fps": 6.0,
+          "frames_per_camera_hour": 21600.0,
+          "inference_seconds_per_camera_hour": 430.10071506025264,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 442.82314028973974,
+          "decode_share": 0.028730262879132287,
+          "cameras_per_device": 8.129656453013082,
+          "cameras_per_device_inference_only": 8.370132561848164
+        },
+        {
+          "analysed_fps": 2.0,
+          "frames_per_camera_hour": 7200.0,
+          "inference_seconds_per_camera_hour": 143.3669050200842,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 156.0893302495713,
+          "decode_share": 0.08150733435235584,
+          "cameras_per_device": 23.0637161056682,
+          "cameras_per_device_inference_only": 25.110397685544495
+        },
+        {
+          "analysed_fps": 1.0,
+          "frames_per_camera_hour": 3600.0,
+          "inference_seconds_per_camera_hour": 71.6834525100421,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 84.4058777395292,
+          "decode_share": 0.1507291384226539,
+          "cameras_per_device": 42.651058153904344,
+          "cameras_per_device_inference_only": 50.22079537108899
+        },
+        {
+          "analysed_fps": 0.5,
+          "frames_per_camera_hour": 1800.0,
+          "inference_seconds_per_camera_hour": 35.84172625502105,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 48.56415148450815,
+          "decode_share": 0.2619715333345322,
+          "cameras_per_device": 74.12875320489006,
+          "cameras_per_device_inference_only": 100.44159074217798
+        },
+        {
+          "analysed_fps": 0.33,
+          "frames_per_camera_hour": 1188.0,
+          "inference_seconds_per_camera_hour": 23.655539328313896,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 36.37796455780099,
+          "decode_share": 0.34972889176557476,
+          "cameras_per_device": 98.96100685567373,
+          "cameras_per_device_inference_only": 152.18422839723937
+        }
+      ]
+    },
+    {
+      "provider": "CoreMLExecutionProvider",
+      "model": "yolov8n-pose.onnx",
+      "frames_timed": 120,
+      "repeats": 3,
+      "ms_per_frame": 5.304572225334899,
+      "ms_per_frame_best": 5.130634374897151,
+      "ms_per_frame_worst": 5.326862850051839,
+      "frames_per_second": 188.51661501071672,
+      "deployment": [
+        {
+          "analysed_fps": 29.97,
+          "frames_per_camera_hour": 107892.0,
+          "inference_seconds_per_camera_hour": 572.3209065358329,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 585.04333176532,
+          "decode_share": 0.021746124669258654,
+          "cameras_per_device": 6.15339036364588,
+          "cameras_per_device_inference_only": 6.290177344368259
+        },
+        {
+          "analysed_fps": 15.0,
+          "frames_per_camera_hour": 54000.0,
+          "inference_seconds_per_camera_hour": 286.44690016808454,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 299.16932539757164,
+          "decode_share": 0.04252583453393838,
+          "cameras_per_device": 12.033319242258187,
+          "cameras_per_device_inference_only": 12.567774334047781
+        },
+        {
+          "analysed_fps": 6.0,
+          "frames_per_camera_hour": 21600.0,
+          "inference_seconds_per_camera_hour": 114.57876006723382,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 127.30118529672092,
+          "decode_share": 0.09993956615433658,
+          "cameras_per_device": 28.279391048943598,
+          "cameras_per_device_inference_only": 31.419435835119454
+        },
+        {
+          "analysed_fps": 2.0,
+          "frames_per_camera_hour": 7200.0,
+          "inference_seconds_per_camera_hour": 38.19292002241127,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 50.91534525189837,
+          "decode_share": 0.24987408347216786,
+          "cameras_per_device": 70.70559930781917,
+          "cameras_per_device_inference_only": 94.25830750535836
+        },
+        {
+          "analysed_fps": 1.0,
+          "frames_per_camera_hour": 3600.0,
+          "inference_seconds_per_camera_hour": 19.096460011205636,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 31.818885240692737,
+          "decode_share": 0.3998388106072479,
+          "cameras_per_device": 113.14035588512728,
+          "cameras_per_device_inference_only": 188.51661501071672
+        },
+        {
+          "analysed_fps": 0.5,
+          "frames_per_camera_hour": 1800.0,
+          "inference_seconds_per_camera_hour": 9.548230005602818,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 22.27065523508992,
+          "decode_share": 0.5712640735168621,
+          "cameras_per_device": 161.64769118816926,
+          "cameras_per_device_inference_only": 377.03323002143344
+        },
+        {
+          "analysed_fps": 0.33,
+          "frames_per_camera_hour": 1188.0,
+          "inference_seconds_per_camera_hour": 6.30183180369786,
+          "decode_seconds_per_camera_hour": 12.722425229487099,
+          "device_seconds_per_camera_hour": 19.02425703318496,
+          "decode_share": 0.6687475472653013,
+          "cameras_per_device": 189.23209425316008,
+          "cameras_per_device_inference_only": 571.2624697294445
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "rows": [
+    {
+      "k": 1,
+      "analysed_fps": 29.97002997002997,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.9551836586508529,
+      "corrected_ratio": 1.901174356465311,
+      "naive_retention": 1.0,
+      "corrected_retention": 0.9434566308830835
+    },
+    {
+      "k": 2,
+      "analysed_fps": 14.985014985014985,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.9551836586508529,
+      "corrected_ratio": 1.9011743605935314,
+      "naive_retention": 1.0,
+      "corrected_retention": 0.9434566352049963
+    },
+    {
+      "k": 3,
+      "analysed_fps": 9.99000999000999,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.9551836586508529,
+      "corrected_ratio": 1.901174279563085,
+      "naive_retention": 1.0,
+      "corrected_retention": 0.9434565503726757
+    },
+    {
+      "k": 5,
+      "analysed_fps": 5.9940059940059935,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.9548983045582362,
+      "corrected_ratio": 1.9011744507948782,
+      "naive_retention": 0.9997012573550309,
+      "corrected_retention": 0.9434567296385076
+    },
+    {
+      "k": 10,
+      "analysed_fps": 2.9970029970029968,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.933689377861212,
+      "corrected_ratio": 1.9011740552024887,
+      "naive_retention": 0.9774972272662199,
+      "corrected_retention": 0.943456315485286
+    },
+    {
+      "k": 15,
+      "analysed_fps": 1.998001998001998,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.9043330974490897,
+      "corrected_ratio": 1.9011735425683605,
+      "naive_retention": 0.9467635770972183,
+      "corrected_retention": 0.9434557787988345
+    },
+    {
+      "k": 20,
+      "analysed_fps": 1.4985014985014984,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.886331036677484,
+      "corrected_ratio": 1.9011697805746448,
+      "naive_retention": 0.9279168761423121,
+      "corrected_retention": 0.9434518402958235
+    },
+    {
+      "k": 30,
+      "analysed_fps": 0.999000999000999,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.8524712901242337,
+      "corrected_ratio": 1.9011780458667333,
+      "naive_retention": 0.8924684613305728,
+      "corrected_retention": 0.9434604933878374
+    },
+    {
+      "k": 45,
+      "analysed_fps": 0.666000666000666,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.752091106325266,
+      "corrected_ratio": 1.9011868908426106,
+      "naive_retention": 0.7873785313575773,
+      "corrected_retention": 0.9434697533618719
+    },
+    {
+      "k": 60,
+      "analysed_fps": 0.4995004995004995,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.6078625144167045,
+      "corrected_ratio": 1.9011772876732536,
+      "naive_retention": 0.6363828661759966,
+      "corrected_retention": 0.9434596996206148
+    },
+    {
+      "k": 90,
+      "analysed_fps": 0.333000333000333,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.4352043079952783,
+      "corrected_ratio": 1.9011496460172155,
+      "naive_retention": 0.45562369503890143,
+      "corrected_retention": 0.9434307610434232
+    },
+    {
+      "k": 120,
+      "analysed_fps": 0.24975024975024976,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.3605575874888802,
+      "corrected_ratio": 1.9011321311466634,
+      "naive_retention": 0.37747461885827177,
+      "corrected_retention": 0.9434124243912061
+    },
+    {
+      "k": 150,
+      "analysed_fps": 0.1998001998001998,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.3142980981910983,
+      "corrected_ratio": 1.9011115452856677,
+      "naive_retention": 0.3290446767431386,
+      "corrected_retention": 0.94339087266049
+    },
+    {
+      "k": 200,
+      "analysed_fps": 0.14985014985014986,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.2721377095426354,
+      "corrected_ratio": 1.9008078966055784,
+      "naive_retention": 0.28490616132086655,
+      "corrected_retention": 0.9430729770627804
+    },
+    {
+      "k": 300,
+      "analysed_fps": 0.0999000999000999,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.2316587969160915,
+      "corrected_ratio": 1.9010083311432244,
+      "naive_retention": 0.24252801523352846,
+      "corrected_retention": 0.943282815805132
+    },
+    {
+      "k": 450,
+      "analysed_fps": 0.0666000666000666,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.2141933627211567,
+      "corrected_ratio": 1.9003396885919268,
+      "naive_retention": 0.2242431188821778,
+      "corrected_retention": 0.9425828011584806
+    },
+    {
+      "k": 600,
+      "analysed_fps": 0.04995004995004995,
+      "true_ratio": 1.9551836586508529,
+      "naive_ratio": 1.2095904365840529,
+      "corrected_ratio": 1.9004886622596082,
+      "naive_retention": 0.2194242276716589,
+      "corrected_retention": 0.9427387645340389
+    }
+  ],
+  "crossover_fps": 1.4985014985014984
+}

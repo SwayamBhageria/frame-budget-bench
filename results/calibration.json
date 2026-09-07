@@ -1,0 +1,56 @@
+{
+  "schedules": [
+    {
+      "window_s": 45.0,
+      "period_s": 300.0,
+      "fixed": {
+        "mean_duration_bias": 0.05218282597727028,
+        "mean_calibration_actions": 28.5,
+        "seeds": 1
+      },
+      "jittered": {
+        "mean_duration_bias": -0.0008790226610091327,
+        "mean_calibration_actions": 25.478947368421053,
+        "seeds": 30
+      }
+    },
+    {
+      "window_s": 60.0,
+      "period_s": 300.0,
+      "fixed": {
+        "mean_duration_bias": 0.039674877693907255,
+        "mean_calibration_actions": 37.76315789473684,
+        "seeds": 1
+      },
+      "jittered": {
+        "mean_duration_bias": -0.0047641601174373506,
+        "mean_calibration_actions": 33.72368421052632,
+        "seeds": 30
+      }
+    },
+    {
+      "window_s": 45.0,
+      "period_s": 150.0,
+      "fixed": {
+        "mean_duration_bias": 0.013043487892727624,
+        "mean_calibration_actions": 45.68421052631579,
+        "seeds": 1
+      },
+      "jittered": {
+        "mean_duration_bias": 0.011707296946324256,
+        "mean_calibration_actions": 44.30877192982455,
+        "seeds": 30
+      }
+    }
+  ],
+  "policies": [
+    {
+      "policy": "contained",
+      "mean_duration_bias": 0.04375145549749687
+    },
+    {
+      "policy": "run_to_completion",
+      "mean_duration_bias": 0.023650916955911996
+    }
+  ]
+}

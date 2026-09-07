@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>frame-budget-bench</title>
+<meta name="description" content="What cutting the frame rate on a factory camera costs you, measured on 16 real operators.">
+<style>
+  :root{
+    --bg:#fbfaf8; --panel:#ffffff; --ink:#16181d; --muted:#6b7280; --line:#e6e3dd;
+    --accent:#b4532a; --accent-soft:#f3e3dc; --good:#2f6f4f; --true:#c9c4bb;
+    --shadow:0 1px 2px rgba(20,20,20,.05),0 8px 24px rgba(20,20,20,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#101114; --panel:#181a1f; --ink:#e9e7e3; --muted:#9aa0aa; --line:#2a2d34;
+      --accent:#e07a4c; --accent-soft:#38251d; --good:#5fbf8e; --true:#6b7280;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101114; --panel:#181a1f; --ink:#e9e7e3; --muted:#9aa0aa; --line:#2a2d34;
+    --accent:#e07a4c; --accent-soft:#38251d; --good:#5fbf8e; --true:#6b7280;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;}
+  .wrap{max-width:1120px;margin:0 auto;padding:34px 20px 80px}
+  h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px;font-weight:650}
+  .sub{color:var(--muted);max-width:70ch;margin:0 0 4px}
+  .sub strong{color:var(--ink);font-weight:600}
+  a{color:var(--accent)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    box-shadow:var(--shadow);padding:18px}
+  .grid{display:grid;grid-template-columns:340px 1fr;gap:18px;margin-top:22px;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.07em;
+    color:var(--muted);margin-bottom:7px;font-weight:600}
+  input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+  input[type=number]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;
+    background:var(--bg);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums}
+  .big{font-size:30px;font-weight:640;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .unit{font-size:13px;color:var(--muted);font-weight:500}
+  .stat{padding:12px 0;border-bottom:1px solid var(--line)}
+  .stat:last-child{border-bottom:0;padding-bottom:0}
+  .seg{display:flex;gap:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:4px}
+  .seg button{flex:1;padding:9px 6px;border:0;background:var(--panel);color:var(--muted);
+    font:inherit;font-size:13px;font-weight:560;cursor:pointer}
+  .seg button[aria-pressed=true]{background:var(--accent);color:#fff}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+  th{text-align:right;font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--muted);font-weight:600;padding:0 0 9px}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:5px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .bar{position:relative;height:19px;background:transparent;width:100%;min-width:150px}
+  .bar i{position:absolute;left:0;top:3px;height:13px;border-radius:3px;display:block}
+  .bar .t{background:var(--true);opacity:.55}
+  .bar .m{background:var(--accent);top:6px;height:7px;border-radius:2px}
+  .bar.ok .m{background:var(--good)}
+  .delta{font-size:12.5px;color:var(--muted)}
+  .delta.bad{color:var(--accent);font-weight:600}
+  .note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+  .callout{margin-top:16px;padding:13px 15px;border-radius:10px;background:var(--accent-soft);
+    border:1px solid var(--line);font-size:13.5px;line-height:1.55}
+  .scroller{overflow-x:auto}
+  footer{margin-top:34px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:18px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;
+    background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>frame-budget-bench</h1>
+  <p class="sub">A camera on a production line costs money per frame it looks at, so every
+  deployment looks at fewer. Below is what that costs, on <strong>16 real operators</strong>
+  doing the same assembly job. <strong>The classifier here is perfect</strong> — every frame it
+  analyses gets its true label — so none of this is fixed by a better model.</p>
+
+  <div class="grid">
+    <div>
+      <div class="panel">
+        <div class="stat">
+          <label for="k">Frame budget</label>
+          <input type="range" id="k" min="0" max="14" value="7" step="1">
+          <div class="big" id="fps">1.0 <span class="unit">analysed fps</span></div>
+          <div class="unit" id="kdesc"></div>
+        </div>
+
+        <div class="stat">
+          <label for="ms">Your inference cost (ms per frame)</label>
+          <input type="number" id="ms" min="0.1" max="500" step="0.1" value="5.19">
+          <div class="unit" id="msnote"></div>
+        </div>
+
+        <div class="stat">
+          <label>How output is counted</label>
+          <div class="seg" role="group">
+            <button id="bn" aria-pressed="true">Count detections</button>
+            <button id="bc" aria-pressed="false">Time ÷ duration</button>
+          </div>
+        </div>
+
+        <div class="stat">
+          <label>Cameras on one accelerator</label>
+          <div class="big" id="cams">—</div>
+          <div class="unit" id="camnote"></div>
+        </div>
+
+        <div class="stat">
+          <label>Work actions the pipeline sees</label>
+          <div class="big" id="recall">—</div>
+          <div class="unit" id="recallnote"></div>
+        </div>
+
+        <div class="stat">
+          <label>Best-vs-worst gap still visible</label>
+          <div class="big" id="spread">—</div>
+          <div class="unit">of the real gap between operators</div>
+        </div>
+      </div>
+      <div class="callout" id="verdict"></div>
+    </div>
+
+    <div class="panel">
+      <div class="legend">
+        <span><span class="swatch" style="background:var(--true)"></span>what the operator actually did</span>
+        <span><span class="swatch" style="background:var(--accent)"></span>what the dashboard reports</span>
+      </div>
+      <div class="scroller">
+        <table>
+          <thead><tr>
+            <th>Operator</th><th style="width:46%"></th>
+            <th>Real</th><th>Reported</th><th>Error</th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="note" id="tablenote"></p>
+    </div>
+  </div>
+
+  <footer>
+    Corpus: <a href="https://doi.org/10.5281/zenodo.4003541">InHARD</a> (CC-BY-4.0),
+    <span id="cstat"></span>. Timings measured on real clips from the same corpus with
+    <code>yolov8n-pose</code> on an Apple M4. Every number here is written by
+    <code>tools/export_web.py</code> from the same code that produces the repository's results.
+    <br><br>
+    <a href="https://github.com/SwayamBhageria/frame-budget-bench">Source, method and limitations on GitHub</a>
+  </footer>
+</div>
+
+<script>
+const F = (n,d=1)=>n.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+let D=null, mode='naive';
+
+fetch('data.json').then(r=>r.json()).then(d=>{
+  D=d;
+  document.getElementById('ms').value = d.bench.default_ms.toFixed(2);
+  document.getElementById('msnote').textContent =
+    `measured here: ${d.bench.ms_per_frame.CoreMLExecutionProvider.toFixed(2)} ms (CoreML), ` +
+    `${d.bench.ms_per_frame.CPUExecutionProvider.toFixed(2)} ms (CPU)`;
+  document.getElementById('cstat').textContent =
+    `${d.corpus.sessions} sessions, ${d.corpus.participants} operators, ` +
+    `${d.corpus.segments.toLocaleString()} annotated actions, ${F(d.corpus.hours,2)} hours`;
+  const k=document.getElementById('k'); k.max=d.rows.length-1;
+  k.value=d.rows.findIndex(r=>r.k===30);
+  render();
+});
+
+document.getElementById('k').addEventListener('input',render);
+document.getElementById('ms').addEventListener('input',render);
+document.getElementById('bn').addEventListener('click',()=>{mode='naive';render()});
+document.getElementById('bc').addEventListener('click',()=>{mode='corrected';render()});
+
+function render(){
+  if(!D) return;
+  const row = D.rows[+document.getElementById('k').value];
+  const ms  = Math.max(0.1, +document.getElementById('ms').value || D.bench.default_ms);
+  const corrected = mode==='corrected';
+
+  document.getElementById('bn').setAttribute('aria-pressed', String(!corrected));
+  document.getElementById('bc').setAttribute('aria-pressed', String(corrected));
+
+  document.getElementById('fps').innerHTML =
+    `${row.fps>=1?F(row.fps,1):F(row.fps,2)} <span class="unit">analysed fps</span>`;
+  document.getElementById('kdesc').textContent =
+    row.k===1 ? 'every frame the camera sends'
+              : `1 frame in ${row.k} — ${F(1/row.k*100,1)}% of the stream`;
+
+  const cost = corrected ? row.cost_corrected : row.cost_naive;
+  // One accelerator delivers 1 device-second per wall second. A camera at `fps`
+  // analysed frames costs fps*ms/1000 of that, scaled up for calibration frames.
+  const camsExact = 1 / (row.fps * (ms / 1000) * (cost / row.cost_naive));
+  document.getElementById('cams').textContent = camsExact>=100? Math.round(camsExact) : F(camsExact,1);
+  document.getElementById('camnote').textContent =
+    corrected ? `includes the full-rate calibration windows (${F(cost*100,1)}% of the stream)`
+              : `at ${F(ms,2)} ms per frame`;
+
+  const ops = row.operators.slice().sort((a,b)=> b.true - a.true);
+  const key = corrected ? 'corrected' : 'naive';
+  const max = Math.max(...ops.map(o=>Math.max(o.true,o[key])));
+
+  const rec = ops.reduce((s,o)=>s+o.recall,0)/ops.length;
+  document.getElementById('recall').textContent = F(rec*100,1)+'%';
+  const worst = ops.reduce((a,o)=> o.recall<a.recall?o:a);
+  document.getElementById('recallnote').textContent =
+    `worst served: ${worst.id} at ${F(worst.recall*100,1)}%`;
+
+  const tr = Math.max(...ops.map(o=>o.true))/Math.min(...ops.map(o=>o.true));
+  const mr = Math.max(...ops.map(o=>o[key]))/Math.min(...ops.map(o=>o[key]));
+  const ret = (mr-1)/(tr-1);
+  document.getElementById('spread').textContent = F(ret*100,0)+'%';
+
+  document.getElementById('rows').innerHTML = ops.map(o=>{
+    const err=(o[key]-o.true)/o.true;
+    const bad=Math.abs(err)>0.08;
+    return `<tr>
+      <td>${o.id}</td>
+      <td><div class="bar ${corrected?'ok':''}">
+        <i class="t" style="width:${o.true/max*100}%"></i>
+        <i class="m" style="width:${Math.max(o[key],0)/max*100}%"></i></div></td>
+      <td style="text-align:right">${F(o.true,1)}</td>
+      <td style="text-align:right">${F(o[key],1)}</td>
+      <td style="text-align:right" class="delta ${bad?'bad':''}">${err>=0?'+':''}${F(err*100,1)}%</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tablenote').textContent =
+    'Work actions per minute. Operators ordered by what they actually did, fastest first.';
+
+  // Compare the fastest and slowest quartiles rather than the two extreme
+  // operators: the claim is about a trend across sixteen people, and a single
+  // pair is noisy enough to understate it at some budgets.
+  const q=4, err=o=>(o[key]-o.true)/o.true, mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
+  const fe=mean(ops.slice(0,q).map(err)), se=mean(ops.slice(-q).map(err));
+  const hurt=ops.reduce((a,o)=> err(o)<err(a)?o:a);
+  const v=document.getElementById('verdict');
+  if(corrected){
+    v.innerHTML = `Output is estimated as <b>time observed working ÷ mean action duration</b>,
+      with the duration taken from short full-rate windows at random offsets. The error no
+      longer tracks how fast the operator works: fastest four ${fe>=0?'+':''}${F(fe*100,1)}%,
+      slowest four ${se>=0?'+':''}${F(se*100,1)}%. It costs the calibration frames, and above
+      0.50 fps plain counting is the better estimator.`;
+  } else if(row.k===1){
+    v.innerHTML = `Every frame the camera sends is analysed. This is the reference: the
+      dashboard reports exactly what happened, and one accelerator carries
+      ${F(camsExact,1)} cameras. Drag the budget down and watch what the saving costs.`;
+  } else if(rec>0.999){
+    v.innerHTML = `Nothing is lost yet. Every operator is still fully seen, and you are
+      analysing ${F(row.cost_naive*100,1)}% of the stream instead of all of it -
+      ${F(camsExact,0)} cameras on the accelerator instead of
+      ${F(1/(D.rows[0].fps*(ms/1000)),1)}. <b>This part of the curve is free.</b>`;
+  } else {
+    v.innerHTML = `The four fastest operators are under-reported by
+      <b>${F(-fe*100,1)}%</b> on average, the four slowest by ${F(-se*100,1)}%. Worst hit is
+      ${hurt.id} at ${F(-err(hurt)*100,1)}%. Fast work is made of short actions, and short
+      actions are what a sampled pipeline misses, so the undercount lands hardest on the
+      people doing the most.`;
+  }
+}
+</script>
+</body>
+</html>
