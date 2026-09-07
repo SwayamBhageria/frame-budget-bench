@@ -29,9 +29,26 @@ Having the same session from two independent publishers is what makes
 against the other rather than assumed, and the agreement of the two label
 sequences is the check that they describe the same recording.
 
-## Model
+## Model, and a licensing note worth reading before you reuse this
 
 [`Xenova/yolov8n-pose`](https://huggingface.co/Xenova/yolov8n-pose) — an ONNX
 export of YOLOv8n-pose, used only as a realistic per-frame vision workload for
 the cost measurement. Nothing in the analysis depends on its accuracy; the
 classifier in the analysis is assumed perfect.
+
+**That model is AGPL-3.0** (as is Ultralytics YOLOv8 upstream), while the code in
+this repository is MIT. The two do not mix, and this repository is careful not to
+mix them:
+
+- **The weights are never redistributed.** `tools/fetch_data.py` downloads them
+  from Hugging Face at run time. No model file is committed here.
+- **No Ultralytics code is used, included or linked.** The file is loaded as a
+  plain ONNX graph through `onnxruntime`.
+- **Nothing in the findings depends on it.** It supplies exactly one number, the
+  milliseconds one frame takes, and that number is an *input*. Swap in any other
+  detector, or your own measured per-frame time, and every conclusion holds with
+  the arithmetic redone. The console takes it as a field for that reason.
+
+So if you are evaluating this for commercial use: the analysis carries no AGPL
+obligation, and the only AGPL component is a benchmark stand-in you would replace
+with your own model anyway.

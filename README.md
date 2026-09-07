@@ -271,3 +271,9 @@ paid data.
 
 Code MIT. The InHARD annotations and clips are CC-BY-4.0 from their authors and
 are fetched, not vendored; see `tools/fetch_data.py` and `CITATION.md`.
+
+The benchmark model, `yolov8n-pose`, is **AGPL-3.0**. Its weights are downloaded
+at run time and never redistributed here, no Ultralytics code is used, and it
+contributes exactly one number to the whole repository: how many milliseconds one
+frame takes. That number is an input you can replace with your own, so nothing in
+the findings carries an AGPL obligation. `CITATION.md` sets this out in full.
