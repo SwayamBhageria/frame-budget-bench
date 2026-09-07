@@ -266,8 +266,16 @@ def build() -> dict[str, str]:
     return out
 
 
+# These sections quote wall-clock timings from `make bench`, which are a
+# property of the machine that ran it. They are regenerated but never treated as
+# drift, or `make check` would fail on every computer that is not the one the
+# numbers were published from. Everything else is deterministic and is pinned.
+HARDWARE_DEPENDENT = {"BENCH", "CAMERAS", "DECODE", "FLOOR", "FREE", "RECOMMEND"}
+
+
 def apply(paths: list[Path], values: dict[str, str], check: bool = False) -> int:
     changed = []
+    drifted: set[str] = set()
     for p in paths:
         if not p.exists():
             continue
@@ -277,8 +285,11 @@ def apply(paths: list[Path], values: dict[str, str], check: bool = False) -> int
             pat = re.compile(
                 rf"(<!--AUTO:{name}-->)(.*?)(<!--/AUTO:{name}-->)", re.S
             )
-            if not pat.search(out):
+            m0 = pat.search(out)
+            if not m0:
                 continue
+            if m0.group(2).strip() != val.strip() and name not in HARDWARE_DEPENDENT:
+                drifted.add(name)
             out = pat.sub(lambda m: f"{m.group(1)}\n{val}\n{m.group(3)}", out)
         for m in re.finditer(r"<!--AUTO:([A-Z_]+)-->", src):
             if m.group(1) not in values:
@@ -288,9 +299,20 @@ def apply(paths: list[Path], values: dict[str, str], check: bool = False) -> int
             changed.append(p.name)
             if not check:
                 p.write_text(out)
-    if check and changed:
-        print(f"stale: {', '.join(changed)} - run `make docs`", file=sys.stderr)
-        return 1
+    if check:
+        if drifted:
+            print(
+                f"stale: {', '.join(sorted(drifted))} - run `make docs`", file=sys.stderr
+            )
+            return 1
+        if changed:
+            print(
+                "docs match the analysis; only machine-dependent timings differ "
+                f"({', '.join(sorted(HARDWARE_DEPENDENT))})"
+            )
+        else:
+            print("docs up to date")
+        return 0
     print("docs up to date" if not changed else f"updated {', '.join(changed)}")
     return 0
 
