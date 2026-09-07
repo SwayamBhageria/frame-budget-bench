@@ -29,6 +29,15 @@ Having the same session from two independent publishers is what makes
 against the other rather than assumed, and the agreement of the two label
 sequences is the check that they describe the same recording.
 
+**On the provenance of those two repositories.** Both are convenience mirrors and
+neither declares a licence of its own. The rights that matter are InHARD's, and
+InHARD is CC-BY-4.0 from the authors named above, which is what permits both the
+mirroring and the use here. Nothing is redistributed in this repository either
+way: `tools/fetch_data.py` downloads at run time and `data/` is git-ignored. The
+canonical source remains the Zenodo record, and anyone who would rather take the
+annotations from there can, at the cost of a 50 GB download for about a megabyte
+of labels.
+
 ## Model, and a licensing note worth reading before you reuse this
 
 [`Xenova/yolov8n-pose`](https://huggingface.co/Xenova/yolov8n-pose) — an ONNX
