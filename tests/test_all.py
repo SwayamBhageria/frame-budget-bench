@@ -201,3 +201,35 @@ def test_published_results_match_a_fresh_run(sessions):
 
 def test_native_fps_is_the_rate_the_clips_actually_have():
     assert NATIVE_FPS == pytest.approx(29.97, abs=0.01)
+
+
+def test_console_data_agrees_with_the_published_results(sessions):
+    """The page and the repository must not be able to disagree.
+
+    The console recomputes spread and cameras-per-accelerator in the browser.
+    Both definitions drifted from the Python once already, so pin them.
+    """
+    web = ROOT / "web" / "data.json"
+    if not web.exists():
+        pytest.skip("run `make web` first")
+    d = json.loads(web.read_text())
+    spread = {r["k"]: r for r in json.loads((ROOT / "results" / "spread.json").read_text())["rows"]}
+    bench = json.loads((ROOT / "results" / "bench.json").read_text())
+
+    assert d["corpus"]["participants"] == 16
+    assert d["corpus"]["sessions"] == 38
+    assert d["bench"]["decode_floor_ms_per_video_second"] == pytest.approx(
+        bench["decode_floor_ms_per_video_second"]
+    )
+
+    for row in d["rows"]:
+        ops = sorted(row["operators"], key=lambda o: -o["true"])
+        q = lambda f: (  # noqa: E731
+            sum(f(o) for o in ops[:4]) / 4
+        ) / (sum(f(o) for o in ops[-4:]) / 4)
+        tr = q(lambda o: o["true"])
+        for key, field in (("naive", "naive_retention"), ("corrected", "corrected_retention")):
+            ret = (q(lambda o, k=key: o[k]) - 1) / (tr - 1)
+            assert ret == pytest.approx(spread[row["k"]][field], abs=1e-9), (
+                f"k={row['k']} {key}: console data disagrees with results/spread.json"
+            )

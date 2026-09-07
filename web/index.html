@@ -193,11 +193,17 @@ function render(){
   const cost = corrected ? row.cost_corrected : row.cost_naive;
   // One accelerator delivers 1 device-second per wall second. A camera at `fps`
   // analysed frames costs fps*ms/1000 of that, scaled up for calibration frames.
-  const camsExact = 1 / (row.fps * (ms / 1000) * (cost / row.cost_naive));
+  // Device-seconds per camera-second: inference on the analysed frames, scaled
+  // up for calibration windows, plus a decode floor that does not scale at all.
+  const decodeFloor = D.bench.decode_floor_ms_per_video_second || 0;
+  const load = row.fps * (ms/1000) * (cost/row.cost_naive) + decodeFloor/1000;
+  const camsExact = 1 / load;
+  const camsInfer = 1 / (row.fps * (ms/1000) * (cost/row.cost_naive));
   document.getElementById('cams').textContent = camsExact>=100? Math.round(camsExact) : F(camsExact,1);
+  const dShare = (decodeFloor/1000)/load;
   document.getElementById('camnote').textContent =
-    corrected ? `includes the full-rate calibration windows (${F(cost*100,1)}% of the stream)`
-              : `at ${F(ms,2)} ms per frame`;
+    (corrected ? `includes the calibration windows (${F(cost*100,1)}% of the stream); ` : '')
+    + `${F(camsInfer,0)} if decode were free — it is ${F(dShare*100,0)}% of the bill here`;
 
   const ops = row.operators.slice().sort((a,b)=> b.true - a.true);
   const key = corrected ? 'corrected' : 'naive';
@@ -209,8 +215,11 @@ function render(){
   document.getElementById('recallnote').textContent =
     `worst served: ${worst.id} at ${F(worst.recall*100,1)}%`;
 
-  const tr = Math.max(...ops.map(o=>o.true))/Math.min(...ops.map(o=>o.true));
-  const mr = Math.max(...ops.map(o=>o[key]))/Math.min(...ops.map(o=>o[key]));
+  // Quartile means, the same statistic fbb/pipeline.py publishes. A max/min
+  // ratio over sixteen people is decided by two of them and is not monotone.
+  const avg=a=>a.reduce((s,x)=>s+x,0)/a.length;
+  const qr=f=>avg(ops.slice(0,4).map(f))/avg(ops.slice(-4).map(f));
+  const tr=qr(o=>o.true), mr=qr(o=>o[key]);
   const ret = (mr-1)/(tr-1);
   document.getElementById('spread').textContent = F(ret*100,0)+'%';
 

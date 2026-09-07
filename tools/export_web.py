@@ -76,6 +76,7 @@ def main() -> None:
         )
 
     ms = {r["provider"]: r["ms_per_frame"] for r in bench["runs"]}
+    decode_floor = bench["decode_floor_ms_per_video_second"]
     payload = {
         "generated_from": "python -m fbb results && python tools/export_web.py",
         "corpus": {
@@ -90,6 +91,9 @@ def main() -> None:
             "model": bench["runs"][0]["model"],
             "ms_per_frame": ms,
             "default_ms": min(ms.values()),
+            # Charged at every frame budget: the stream arrives in real time
+            # whether or not every frame is analysed.
+            "decode_floor_ms_per_video_second": decode_floor,
         },
         "calibration": {"window_s": WINDOW_S, "period_s": PERIOD_S, "seeds": SEEDS},
         "rows": out_rows,
